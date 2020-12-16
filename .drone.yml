@@ -1,0 +1,23 @@
+## Example for drone ci pipeline.
+kind: pipeline
+type: docker
+name: packer
+
+steps:
+- name: build-ubuntu
+  image: example.org/library/packer
+  commands:
+     - packer build -force -only=vsphere-iso -var-file=variables.json -var-file=isovars.json ./linux/ubuntu/ubuntu2004.json
+  environment:
+    VCENTER_SERVER:
+      from_secret: vcenter_server
+    VCENTER_USERNAME:  
+      from_secret: vcenter_username
+    VCENTER_PASSWORD:
+      from_secret: vcenter_password
+    VSPHERE_CLUSTER:
+      from_secret: vsphere_cluster
+    VSPHERE_DATASTORE:
+      from_secret: vsphere_datastore
+    VSPHERE_NETWORK:
+      from_secret: vsphere_network 
